@@ -1,0 +1,81 @@
+.row {
+    display: flex;
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en nuevas filas */
+}
+
+.card {
+    margin: 20px; /* Más espacio entre tarjetas */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para un efecto de elevación */
+    flex: 1 1 calc(33.333% - 40px); /* Tarjetas en filas de 3, con espacio entre ellas */
+    max-width: calc(33.333% - 40px); /* Limitar ancho máximo al 33.333% del contenedor menos el margen */
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgb(169, 170, 181);
+    background-color: rgb(245, 245, 245);
+
+}
+
+@media (max-width: 768px) {
+    .card {
+        flex: 1 1 calc(50% - 40px); /* 2 tarjetas por fila en pantallas medianas */
+        max-width: calc(50% - 30px);
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        flex: 1 1 calc(100% - 40px); /* 1 tarjeta por fila en pantallas pequeñas */
+        max-width: calc(100% - 50px);
+    }
+}
+
+.card img {
+    border-top-left-radius: 10px; /* Bordes redondeados para la imagen */
+    border-top-right-radius: 10px;
+    height: 200px; /* Altura fija para las imágenes */
+    object-fit: cover; /* Ajuste para que la imagen se recorte sin deformarse */
+}
+
+.card img:hover {
+    opacity: 9.0;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card-title {
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    margin-top: 1rem;
+}
+
+/*h2 {
+     font-size: 2.5em;
+    background: linear-gradient(to right, #ac5fff, #7bb6fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center; 
+
+    
+} */
+
+h2, h1 {
+    font-size: 2.5em;
+    background: linear-gradient(to right, #9c5fff, #1e56c5);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}

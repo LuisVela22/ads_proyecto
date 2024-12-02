@@ -1,0 +1,10 @@
+.h1 {
+    color: #000;
+}
+
+.container-1 {
+    width: 90%; /* Ancho relativo al contenedor */
+  /*max-width: 300px;  Máximo ancho en píxeles */
+  margin: 0 auto; /* Centrado horizontal */
+  padding: 20px;
+}
