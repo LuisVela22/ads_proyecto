@@ -11,7 +11,7 @@ export const authRequired = (req, res, next) => {
 
     jwt.verify(acces_token, SECRET_JWT_KEY, (err, admin) => {
         if(err) {
-            throw new Error(err);
+            //throw new Error(err);
             return res.status(403).json({
                 message: "token invalido"
             
