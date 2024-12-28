@@ -13,16 +13,15 @@ const adminSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlenght: 8
+        minlength: 8, 
     },
     role: {
-        type: String, 
+        type: String,
         enum: ['admin', 'superadmin'], 
-        default: 'admin'
-    }
+        default: 'superadmin',
+    },
 }, {
-    timestamps: true
-});
+    timestamps: true,
+}); 
 
-
-export default mongoose.model('Admin', adminSchema)
+export default mongoose.model('SuperAdmin', adminSchema);

@@ -1,35 +1,37 @@
-import Admin from '../models/admin.model.js'
+import SuAdmin from '../models/superadmin.model.js'
+import crypto from 'node:crypto';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import createAccessToken from '../libs/jwt.js';
 import { SALT_ROUNDS, expiration, SECRET_JWT_KEY } from '../config.js';
 
-class AdminController {
+class SuAdminController {
     async register(req, res) {
-        const { username, email, password } = req.body;
+        const { username, email, password, role } = req.body;
         try {
             const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-            const newAdmin = new Admin({
+            const newSuAdmin = new SuAdmin({
                 username,
                 email,
                 password: hashedPassword,
+                role,
             })
 
-            const adminSaved = await newAdmin.save();
+            const SuAdminSaved = await newSuAdmin.save();
 
             //en el payload no asignamos contaseña 
             //o direccion para no exponer esos datos a
             //alguien que pueda acceder al token
-            const token = createAccessToken({ id: adminSaved._id });
+            const token = createAccessToken({ id: SuAdminSaved._id });
             res
                 .cookie('acces_token', token, {
                     httpOnly: true
                 })
                 .json({
-                    id: adminSaved._id,
-                    username: adminSaved.username,
-                    email: adminSaved.email
+                    id: SuAdminSaved._id,
+                    username: SuAdminSaved.username,
+                    email: SuAdminSaved.email
                 });
 
         } catch (error) {
@@ -42,22 +44,22 @@ class AdminController {
         const { email, password } = req.body;
 
         try {
-            const adminFound = await Admin.findOne({ email })
-            if (!adminFound) return res.status(404).json({ message: "admin   no encontrado" })
+            const SuAdminFound = await SuAdmin.findOne({ email })
+            if (!SuAdminFound) return res.status(404).json({ message: "usuario no encontrado" })
 
-            const compareAdmin = await bcrypt.compare(password, adminFound.password);
+            const compareSuAdmin = await bcrypt.compare(password, SuAdminFound.password);
 
-            if (!compareAdmin) return res.status(401).json({ message: "Unauthrorized" })
+            if (!compareSuAdmin) return res.status(401).json({ message: "Unauthrorized" })
 
 
-            const token = createAccessToken({ id: adminFound._id });
+            const token = createAccessToken({ id: SuAdminFound._id });
             res
                 .cookie('acces_token', token, {
                     httpOnly: true
                 })
                 .json({
-                    id: adminFound._id,
-                    username: adminFound.username,
+                    id: SuAdminFound._id,
+                    username: SuAdminFound.username,
                 });
 
         } catch (error) {
@@ -69,7 +71,7 @@ class AdminController {
     logout(req, res) {
         //res.status(500).json({message: "hola"})
         try {
-            console.log("intentando limpiar cookie")
+            //console.log("intentando limpiar cookie")
             res.cookie('acces_token', "", {
                 expires: new Date(0),
                 httpOnly: true,
@@ -83,25 +85,25 @@ class AdminController {
     }
 
     async profile(req, res) {
-        const adminFound = await Admin.findById(req.admin.id);
+        const SuAdminFound = await SuAdmin.findById(req.admin.id);
 
-        if (!adminFound) return res.status(400).json({ message: "Admin not founf" });
+        if (!SuAdminFound) return res.status(400).json({ message: "SuperAdmin not found" });
 
         return res.json({
-            id: adminFound._id,
-            username: adminFound.username,
-            email: adminFound.email
+            id: SuAdminFound._id,
+            username: SuAdminFound.username,
+            email: SuAdminFound.email
         })
     }
 
-    registrarEvento(req, res) {
-        res.status(200).json({message: "Falta la logica aqui de registrar un evento de un admin, lo mas recomendable seria un tipo formulario"})
+    editar(req, res) {
+        res.status(200).json({message: "falta la logica para mostrar, para editar los datos manualmente de la base de datos"});
     }
 }
 
-const controller = new AdminController();
-export const register = controller.register.bind(controller);
+const controller = new SuAdminController();
+//export const register = controller.register.bind(controller);
 export const login = controller.login.bind(controller);
 export const logout = controller.logout.bind(controller);
 export const profile = controller.profile.bind(controller);
-export const registarEvento = controller.registrarEvento.bind(controller);
+export const editar = controller.editar.bind(controller);

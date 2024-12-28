@@ -4,7 +4,7 @@ import {SECRET_JWT_KEY} from '../config.js'
 export const authRequired = (req, res, next) => {
     //console.log(req.headers);
     const {acces_token} = req.cookies;
-    console.log(acces_token);
+    //console.log(acces_token);
     
     if(!acces_token) return res.status(401).json({message: "SIN TOKEN"});
     
